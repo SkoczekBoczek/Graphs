@@ -1,6 +1,6 @@
 import sys
 from graphCreation import createGraph
-from operations.print import printGraph
+from operations.print import printGraphList, printGraphMatrix, printGraphTable
 from operations.find import findEdges
 
 def printMenu():
@@ -26,7 +26,16 @@ def interactiveMode(graph):
                 print("\nExiting...")
                 sys.exit(0)
             elif command == "print":
-                printGraph(graph)
+                print("Choose representation: 'matrix', 'list', or 'table'")
+                representation = input("type> ").strip().lower()
+                if representation == "matrix":
+                    printGraphMatrix(graph)
+                elif representation == "list":
+                    printGraphList(graph)
+                elif representation == "table":
+                    printGraphTable(graph)
+                else:
+                    print(f"Unknown representation '{representation}'")
             elif command == "find":
                 try:
                     fromNode = int(input("from> "))

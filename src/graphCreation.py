@@ -56,11 +56,6 @@ def createGraph():
         
         graph = {i: [] for i in range(1, vertexes + 1)}
         
-        # Dodajemy krawędzie do grafu, aby utworzyć drzewo
-        for i in range(1, vertexes):
-            graph[i].append(i + 1)
-        targetEdges -= (vertexes - 1)
-        
         # Możliwe krawędzie do dodania
         allPossibleEdges = []
         for i in range(1, vertexes + 1):
