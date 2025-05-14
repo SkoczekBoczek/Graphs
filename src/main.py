@@ -1,6 +1,7 @@
 import sys
 from graphCreation import createGraph
 from operations.print import printGraph
+from operations.find import findEdges
 
 def printMenu():
     print("================================")
@@ -30,7 +31,7 @@ def interactiveMode(graph):
                 try:
                     fromNode = int(input("from> "))
                     toNode = int(input("to> "))
-                    print(f"To implement")
+                    findEdges(fromNode, toNode, graph)
                 except ValueError:
                     print("Please enter valid node numbers")
             elif command == "bfs":

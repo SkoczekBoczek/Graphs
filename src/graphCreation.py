@@ -26,16 +26,31 @@ def createGraph():
         print("Or:    python3 src/main.py --user-provided")
         sys.exit(1)
     print("Enter number of vertexes!")
-    vertexes = int(input("nodes> "))
+
+    while True:
+        try:
+            vertexes = int(input("nodes> "))
+            if vertexes < 1:
+                print(f"'{vertexes}' is out of range")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
 
     graph = {}
 
     if sys.argv[1] == "--generate":
-        saturation = int(input("saturation> "))
-        if saturation < 0 or saturation > 100:
-            print(f"'{saturation}' is out of range")
-            sys.exit(1)
-
+        while True:
+            try:
+                saturation = int(input("saturation> "))
+                if saturation < 0 or saturation > 100:
+                    print(f"'{saturation}' is out of range")
+                    # sys.exit(1)
+                    continue
+                break
+            except ValueError:
+                print("Invalid input. Please enter a valid integer.")
+                
         maxEdges = vertexes * (vertexes - 1)  # Maksymalna liczba krawędzi w grafie skierowanym
         targetEdges = (saturation * maxEdges) // 100  # Docelowa liczba krawędzi
         
@@ -87,5 +102,5 @@ def createGraph():
 
                 graph[i] = successors
                 break
-            
+
     return graph
