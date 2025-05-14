@@ -2,16 +2,19 @@ import sys
 from graphCreation import createGraph
 from operations.print import printGraphList, printGraphMatrix, printGraphTable
 from operations.find import findEdges
+from operations.bfs import bfs
+from operations.dfs import dfs
+from operations.TickzpictureExport import exportToTikz
 
 def printMenu():
-    print("================================")
+    print("========================================")
     print("{}        {}".format("Help", "Shows this menu"))
     print("{}        {}".format("Exit", "Exits the program (or ctrl+D)"))
-    print("{}        {}".format("Print", "Prints the graph"))
+    print("{}       {}".format("Print", "Prints the graph"))
     print("{}        {}".format("Find", "Finding the edges of a graph"))
-    print("{}        {}".format("BFS", "Performs BFS from start node"))
-    print("{}        {}".format("DFS", "Performs DFS from start node"))
-    print("================================")
+    print("{}         {}".format("BFS", "Performs BFS from start node"))
+    print("{}         {}".format("DFS", "Performs DFS from start node"))
+    print("========================================")
 
 def interactiveMode(graph):
     print("\nInteractive mode (type 'help' for commands.)")
@@ -44,9 +47,22 @@ def interactiveMode(graph):
                 except ValueError:
                     print("Please enter valid node numbers")
             elif command == "bfs":
-                print("To implement")
+                try:
+                    startNode = int(input("start> "))
+                    transversalOrder = bfs(graph, startNode)
+                    print(f"BFS traversal order:", " -> ".join(map(str, transversalOrder)))
+                except ValueError:
+                    print("Please enter a valid start node.")
             elif command == "dfs":
-                print("To implement")
+                try:
+                    startNode = int(input("start> "))
+                    transversalOrder = dfs(graph, startNode)
+                    print(f"DFS traversal order:", " -> ".join(map(str, transversalOrder)))
+                except ValueError:
+                    print("Please enter a valid start node.")
+            elif command == "export":
+                filename = input("filename> ")
+                exportToTikz(graph, filename)
             else:
                 print(f"Unknown command '{command}'")
         except EOFError:
