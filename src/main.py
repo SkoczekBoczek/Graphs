@@ -42,6 +42,30 @@ def main():
             print(f"'{saturation}' is out of range")
             sys.exit(1)
 
+        maxEdges = vertexes * (vertexes - 1)  # Maksymalna liczba krawędzi w grafie skierowanym
+        targetEdges = (saturation * maxEdges) // 100  # Docelowa liczba krawędzi
+        
+        graph = {i: [] for i in range(1, vertexes + 1)}
+        
+        # Dodajemy krawędzie do grafu, aby utworzyć drzewo
+        for i in range(1, vertexes):
+            graph[i].append(i + 1)
+        targetEdges -= (vertexes - 1)
+        
+        # Możliwe krawędzie do dodania
+        allPossibleEdges = []
+        for i in range(1, vertexes + 1):
+            for j in range(1, vertexes + 1):
+                if i != j and j not in graph[i]:
+                    allPossibleEdges.append((i, j))
+
+        random.shuffle(allPossibleEdges)
+        
+        edgesToAdd = min(targetEdges, len(allPossibleEdges))
+        for i in range(edgesToAdd):
+            u, v = allPossibleEdges[i]
+            graph[u].append(v)
+
     elif sys.argv[1] == "--user-provided":
         for i in range(1, vertexes + 1):
             print("Enter successors for vertex", i)
@@ -65,7 +89,6 @@ def main():
                         cleanedSuccessors.append(x)
                 
                 if errorsFound:
-                    print("Please try again")
                     continue
 
                 graph[i] = successors
