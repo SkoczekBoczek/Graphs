@@ -45,7 +45,6 @@ def createGraph():
                 saturation = int(input("saturation> "))
                 if saturation < 0 or saturation > 100:
                     print(f"'{saturation}' is out of range")
-                    # sys.exit(1)
                     continue
                 break
             except ValueError:

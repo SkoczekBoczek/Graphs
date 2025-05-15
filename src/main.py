@@ -5,6 +5,8 @@ from operations.find import findEdges
 from operations.bfs import bfs
 from operations.dfs import dfs
 from operations.TickzpictureExport import exportToTikz
+from operations.kahnAlgorithm import kahn
+from operations.tarjanAlgorithm import tarjan
 
 def printMenu():
     print("========================================")
@@ -14,6 +16,8 @@ def printMenu():
     print("{}        {}".format("Find", "Finding the edges of a graph"))
     print("{}         {}".format("BFS", "Performs BFS from start node"))
     print("{}         {}".format("DFS", "Performs DFS from start node"))
+    print("{}     {}".format("Kahn", "Performs topological sorting using Kahn's algorithm"))
+    print("{}       {}".format("Tarjan", "Performs topological sorting using Tarjan's algorithm"))
     print("========================================")
 
 def interactiveMode(graph):
@@ -63,6 +67,18 @@ def interactiveMode(graph):
             elif command == "export":
                 filename = input("filename> ")
                 exportToTikz(graph, filename)
+            elif command == "kahn":
+                try:
+                    order = kahn(graph)
+                    print("Topological order (Kahn):", " -> ".join(map(str, order)))
+                except ValueError as e:
+                    print("Error:", e)
+            elif command == "tarjan":
+                    try:
+                        order = tarjan(graph)
+                        print("Topological order (Tarjan):", " -> ".join(map(str, order)))
+                    except Exception as e:
+                        print("Error:", e)
             else:
                 print(f"Unknown command '{command}'")
         except EOFError:
