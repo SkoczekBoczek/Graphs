@@ -49,22 +49,25 @@ def createGraph():
                 break
             except ValueError:
                 print("Invalid input. Please enter a valid integer.")
-                
-        maxEdges = vertexes * (vertexes - 1)  # Maksymalna liczba krawędzi w grafie skierowanym
+        
+        maxEdges = vertexes * (vertexes - 1) // 2  # Maksymalna liczba krawędzi w DAG
         targetEdges = (saturation * maxEdges) // 100  # Docelowa liczba krawędzi
-        
+
         graph = {i: [] for i in range(1, vertexes + 1)}
-        
+
+        for i in range(1, vertexes):
+            graph[i].append(i + 1)
+
         # Możliwe krawędzie do dodania
         allPossibleEdges = []
         for i in range(1, vertexes + 1):
-            for j in range(1, vertexes + 1):
-                if i != j and j not in graph[i]:
+            for j in range(i + 1, vertexes + 1):
+                if j not in graph[i]:
                     allPossibleEdges.append((i, j))
 
         random.shuffle(allPossibleEdges)
-        
-        edgesToAdd = min(targetEdges, len(allPossibleEdges))
+
+        edgesToAdd = min(targetEdges - (vertexes - 1), len(allPossibleEdges))
         for i in range(edgesToAdd):
             u, v = allPossibleEdges[i]
             graph[u].append(v)

@@ -16,8 +16,8 @@ def printMenu():
     print("{}        {}".format("Find", "Finding the edges of a graph"))
     print("{}         {}".format("BFS", "Performs BFS from start node"))
     print("{}         {}".format("DFS", "Performs DFS from start node"))
-    print("{}     {}".format("Kahn", "Performs topological sorting using Kahn's algorithm"))
-    print("{}       {}".format("Tarjan", "Performs topological sorting using Tarjan's algorithm"))
+    print("{}        {}".format("Kahn", "Performs topological sorting using Kahn's algorithm"))
+    print("{}      {}".format("Tarjan", "Performs topological sorting using Tarjan's algorithm"))
     print("========================================")
 
 def interactiveMode(graph):
