@@ -8,9 +8,6 @@ from operations.TickzpictureExport import exportToTikz
 from operations.kahnAlgorithm import kahn
 from operations.tarjanAlgorithm import tarjan
 
-# ===============
-# PRIJECT REBUILD
-# ===============
 
 def printMenu():
     print("========================================")
