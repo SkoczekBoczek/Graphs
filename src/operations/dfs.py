@@ -1,4 +1,4 @@
-def dfs(graph, startNode, visited=None, traversalOrder=None):
+def dfs(graph, startNode, representation, visited=None, traversalOrder=None):
     if visited is None:
         visited = set()
     if traversalOrder is None:
@@ -7,8 +7,17 @@ def dfs(graph, startNode, visited=None, traversalOrder=None):
     visited.add(startNode)
     traversalOrder.append(startNode)
 
-    for neighbor in graph.get(startNode, []):
+    if representation == "list":
+        neighbors = graph[startNode]
+    elif representation == "matrix":
+        neighbors = [i + 1 for i, val in enumerate(graph[startNode - 1]) if val == 1]
+    elif representation == "table":
+        neighbors = [to for fromNode, to in graph if fromNode == startNode]
+    else:
+        raise ValueError("Unsupported graph representation")
+
+    for neighbor in neighbors:
         if neighbor not in visited:
-            dfs(graph, neighbor, visited, traversalOrder)
+            dfs(graph, neighbor, representation, visited, traversalOrder)
 
     return traversalOrder

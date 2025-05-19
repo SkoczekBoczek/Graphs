@@ -1,6 +1,6 @@
 import math
 
-def exportToTikz(graph, filename="graph.tex"):
+def exportToTikz(graph, representation, filename="graph.tex"):
     header = [
         "\\begin{tikzpicture}[",
         "    >={Stealth[black]},",
@@ -19,7 +19,18 @@ def exportToTikz(graph, filename="graph.tex"):
         with open(filename, "w") as file:
             file.write("\n".join(header) + "\n\n")
             
-            numNodes = len(graph)
+            if representation == "list":
+                numNodes = len(graph) - 1
+                nodes = range(1, len(graph))
+            elif representation == "matrix":
+                numNodes = len(graph)
+                nodes = range(1, len(graph) + 1)
+            elif representation == "table":
+                nodes = set(node for edge in graph for node in edge)
+                numNodes = len(nodes)
+            else:
+                raise ValueError("Unsupported graph representation")
+
             if numNodes == 0:
                 raise ValueError("Graph is empty")
                 
@@ -28,7 +39,7 @@ def exportToTikz(graph, filename="graph.tex"):
             angleStep = 360 / numNodes
             
             positions = {}
-            for i, node in enumerate(graph.keys()):
+            for i, node in enumerate(sorted(nodes)):
                 angle = math.radians(i * angleStep)
                 x = center[0] + radius * math.cos(angle)
                 y = center[1] + radius * math.sin(angle)
@@ -37,9 +48,22 @@ def exportToTikz(graph, filename="graph.tex"):
             
             file.write("\n")
             
-            for node, successors in graph.items():
-                for successor in successors:
-                    file.write(f"    \\path [->] ({node}) edge ({successor});\n")
+            if representation == "list":
+                for node, successors in enumerate(graph):
+                    if node == 0:
+                        continue
+                    for successor in successors:
+                        file.write(f"    \\path [->] ({node}) edge ({successor});\n")
+            elif representation == "matrix":
+                for i in range(len(graph)):
+                    for j in range(len(graph[i])):
+                        if graph[i][j] == 1:
+                            file.write(f"    \\path [->] ({i + 1}) edge ({j + 1});\n")
+            elif representation == "table":
+                for fromNode, toNode in graph:
+                    file.write(f"    \\path [->] ({fromNode}) edge ({toNode});\n")
+            else:
+                raise ValueError("Unsupported graph representation")
             
             file.write("\n" + "\n".join(footer) + "\n")
             
